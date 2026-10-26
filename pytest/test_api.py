@@ -43,3 +43,23 @@ def test_create_post():
     assert created_post["body"] == body
     assert created_post["userId"] == user_id
     assert "id" in created_post
+
+
+def test_get_comments():
+    response = get_comments(1)
+    assert response.status_code == 200
+
+    comments = response.json()
+    assert isinstance(comments, list)
+    assert len(comments) > 0
+
+    for com in comments:
+        assert con["postId"] == 1
+        assert "email" in con
+        assert "name" in con
+        assert "body" in con
+
+def test_get_notpost():
+    response = get_post(999)
+    assert response.status_code == 404
+    assert response.json() == {}
